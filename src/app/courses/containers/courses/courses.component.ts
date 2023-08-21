@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import {Course} from "../model/course";
-import {CoursesService} from "../services/courses.service";
+import {Component} from '@angular/core';
+import {Course} from "../../model/course";
+import {CoursesService} from "../../services/courses.service";
 import {Observable, of} from "rxjs";
-import {catchError } from "rxjs/operators";
+import {catchError} from "rxjs/operators";
 import {MatDialog} from "@angular/material/dialog";
-import {ErrorDialogComponent} from "../shared/components/error-dialog/error-dialog.component";
+import {ErrorDialogComponent} from "../../shared/components/error-dialog/error-dialog.component";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
