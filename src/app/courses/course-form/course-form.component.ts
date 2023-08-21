@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Location} from "@angular/common";
 import {NonNullableFormBuilder} from "@angular/forms";
 
-import {CoursesService} from "../courses/services/courses.service";
+import {CoursesService} from "../services/courses.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
