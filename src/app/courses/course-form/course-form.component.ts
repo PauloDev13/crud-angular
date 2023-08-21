@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Location} from "@angular/common";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {NonNullableFormBuilder} from "@angular/forms";
 
 import {CoursesService} from "../courses/services/courses.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -12,19 +12,17 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class CourseFormComponent {
 
-  form: FormGroup;
+  form = this.formBuilder.group({
+    name: [''],
+    category: [''],
+  });
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: NonNullableFormBuilder,
     private courseService: CoursesService,
     private snackBar: MatSnackBar,
     private location: Location,
-  ) {
-    this.form = this.formBuilder.group({
-      name: [null],
-      category: [null],
-    })
-  }
+  ) {}
 
   onSubmit(){
     this.courseService.save(this.form.value).subscribe({
