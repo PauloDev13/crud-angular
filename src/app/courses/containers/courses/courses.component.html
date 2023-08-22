@@ -2,10 +2,12 @@
   <mat-card-content>
     <div class="column-flex mat-elevation-z8">
       <mat-toolbar color="primary">Cursos disponíveis</mat-toolbar>
+      
       <app-courses-list
+        (add)="onAdd()"
+        (edit)="onEdit($event)"
         *ngIf="courses$ | async as courses; else loading"
-        [courses]="courses"
-        (add)="onAdd()">
+        [courses]="courses">
       </app-courses-list>
 
       <ng-template #loading>
