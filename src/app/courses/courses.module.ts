@@ -1,27 +1,22 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ReactiveFormsModule} from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { CoursesRoutingModule } from './courses-routing.module';
-import {AppMaterialModule} from "./shared/app-material/app-material.module";
-import {SharedModule} from "./shared/shared.module";
-import { CoursesComponent } from './containers/courses/courses.component';
-import { CourseFormComponent } from './containers/course-form/course-form.component';
 import { CoursesListComponent } from './components/courses-list/courses-list.component';
-
+import { CourseFormComponent } from './containers/course-form/course-form.component';
+import { CoursesComponent } from './containers/courses/courses.component';
+import { CoursesRoutingModule } from './courses-routing.module';
+import { AppMaterialModule } from './shared/app-material/app-material.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [
-    CoursesComponent,
-    CourseFormComponent,
-    CoursesListComponent
-  ],
+  declarations: [CoursesComponent, CourseFormComponent, CoursesListComponent],
   imports: [
     CommonModule,
     CoursesRoutingModule,
     ReactiveFormsModule,
     AppMaterialModule,
     SharedModule,
-  ]
+  ],
 })
-export class CoursesModule { }
+export class CoursesModule {}

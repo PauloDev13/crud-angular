@@ -1,17 +1,16 @@
-import {Component} from '@angular/core';
-import {Location} from "@angular/common";
-import {NonNullableFormBuilder} from "@angular/forms";
+import { Location } from '@angular/common';
+import { Component } from '@angular/core';
+import { NonNullableFormBuilder } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import {CoursesService} from "../../services/courses.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { CoursesService } from '../../services/courses.service';
 
 @Component({
   selector: 'app-course-form',
   templateUrl: './course-form.component.html',
-  styleUrls: ['./course-form.component.scss']
+  styleUrls: ['./course-form.component.scss'],
 })
 export class CourseFormComponent {
-
   form = this.formBuilder.group({
     name: [''],
     category: [''],
@@ -24,15 +23,14 @@ export class CourseFormComponent {
     private location: Location,
   ) {}
 
-  onSubmit(){
+  onSubmit() {
     this.courseService.save(this.form.value).subscribe({
       next: () => this.onSuccess(),
-      error: () => this.onError()
-    })
-
+      error: () => this.onError(),
+    });
   }
 
-  onCancel(){
+  onCancel() {
     this.location.back();
   }
 
@@ -44,5 +42,4 @@ export class CourseFormComponent {
   private onError() {
     this.snackBar.open('Erro ao salvar curso.', '', { duration: 3000 });
   }
-
 }
