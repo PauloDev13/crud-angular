@@ -31,6 +31,10 @@ export class CoursesService {
     return this.create(record);
   }
 
+  remove(id: string) {
+    return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
+  }
+
   private create(record: Partial<Course>): Observable<Course> {
     return this.httpClient.post<Course>(this.API, record).pipe(first());
   }

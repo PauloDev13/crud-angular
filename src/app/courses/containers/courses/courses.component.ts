@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -14,7 +15,7 @@ import { ErrorDialogComponent } from '../../shared/components/error-dialog/error
   styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent {
-  courses$: Observable<Course[]>;
+  courses$: Observable<Course[]> | null = null;
   displayedColumns = ['name', 'category', 'actions'];
 
   constructor(
@@ -22,8 +23,13 @@ export class CoursesComponent {
     private coursesService: CoursesService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private snackBar: MatSnackBar,
   ) {
-    this.courses$ = coursesService.list().pipe(
+    this.refresh();
+  }
+
+  refresh() {
+    this.courses$ = this.coursesService.list().pipe(
       catchError(() => {
         this.onError('Erro ao carregar curso.');
         return of([]);
@@ -41,9 +47,27 @@ export class CoursesComponent {
     });
   }
 
+  onDelete(course: Course) {
+    this.coursesService.remove(course._id).subscribe({
+      next: () => {
+        this.refresh();
+        this.onSuccess();
+      },
+      error: () => this.onError('Erro ao excluir curso!'),
+    });
+  }
+
   onError(errorMsg: string) {
     this.dialog.open(ErrorDialogComponent, {
       data: errorMsg,
+    });
+  }
+
+  private onSuccess() {
+    this.snackBar.open('Curso excluido com sucesso!', 'X', {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
     });
   }
 }
