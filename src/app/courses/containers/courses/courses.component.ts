@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 
 import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
+import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 
 @Component({
@@ -48,12 +49,20 @@ export class CoursesComponent {
   }
 
   onDelete(course: Course) {
-    this.coursesService.remove(course._id).subscribe({
-      next: () => {
-        this.refresh();
-        this.onSuccess();
-      },
-      error: () => this.onError('Erro ao excluir curso!'),
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Tem certeza que deseja remover este curso?',
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.coursesService.remove(course._id).subscribe({
+          next: () => {
+            this.refresh();
+            this.onSuccess();
+          },
+          error: () => this.onError('Erro ao remover curso!'),
+        });
+      }
     });
   }
 
