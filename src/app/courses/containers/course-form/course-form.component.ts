@@ -1,8 +1,10 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
+import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
 
 @Component({
@@ -10,11 +12,13 @@ import { CoursesService } from '../../services/courses.service';
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.scss'],
 })
-export class CourseFormComponent {
+export class CourseFormComponent implements OnInit {
   form = this.formBuilder.group({
     name: [''],
     category: [''],
   });
+
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -22,6 +26,14 @@ export class CourseFormComponent {
     private snackBar: MatSnackBar,
     private location: Location,
   ) {}
+
+  ngOnInit() {
+    const course: Course = this.route.snapshot.data['course'];
+    this.form.setValue({
+      name: course.name,
+      category: course.category,
+    });
+  }
 
   onSubmit() {
     this.courseService.save(this.form.value).subscribe({
