@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { NonNullableFormBuilder } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 
@@ -15,8 +15,11 @@ import { CoursesService } from '../../services/courses.service';
 export class CourseFormComponent implements OnInit {
   form = this.formBuilder.group({
     _id: [''],
-    name: [''],
-    category: [''],
+    name: [
+      '',
+      [Validators.required, Validators.minLength(5), Validators.maxLength(100)],
+    ],
+    category: ['', [Validators.required]],
   });
 
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
@@ -46,6 +49,30 @@ export class CourseFormComponent implements OnInit {
 
   onCancel() {
     this.location.back();
+  }
+
+  getErrorMessage(fieldName: string): string {
+    const field = this.form?.get(fieldName);
+
+    if (field?.hasError('required')) {
+      return 'Campo obrigatório.';
+    }
+
+    if (field?.hasError('minlength')) {
+      const requiredLength: number = field?.errors
+        ? field.errors['minlength']['requiredLength']
+        : 5;
+      return `Campo deve ter no mínimo ${requiredLength} caracteres.`;
+    }
+
+    if (field?.hasError('maxlength')) {
+      const requiredLength: number = field?.errors
+        ? field.errors['maxlength']['requiredLength']
+        : 100;
+      return `Campo deve ter no máximo ${requiredLength} caracteres.`;
+    }
+
+    return 'Campo inválido.';
   }
 
   private onSuccess() {
