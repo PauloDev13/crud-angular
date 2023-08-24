@@ -4,21 +4,27 @@
     <form [formGroup]="form" class="min-width">
       <mat-form-field class="full-width" style="margin-top: 10px">
         <mat-label>Nome</mat-label>
-        <input formControlName="name" matInput>
+        <input #name formControlName="name" matInput maxlength="100">
+        <mat-hint align="end">{{name.value.length}}/100</mat-hint>
+        <mat-error *ngIf="form.get('name')?.invalid">{{getErrorMessage('name')}}</mat-error>
       </mat-form-field>
 
       <mat-form-field class="full-width">
         <mat-label>Categoria</mat-label>
         <mat-select formControlName="category">
-          <mat-option value="null"></mat-option>
+          <mat-option></mat-option>
           <mat-option value="Front-end">Front-End</mat-option>
           <mat-option value="Back-end">Back-End</mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('category')?.invalid">{{getErrorMessage('category')}}</mat-error>
       </mat-form-field>
     </form>
   </mat-card-content>
   <mat-card-actions class="action-center">
-    <button (click)="onSubmit()" class="btn-space" color="primary" mat-raised-button>Salvar</button>
+    <button (click)="onSubmit()" [disabled]="form.invalid" color="primary" mat-raised-button
+            style="margin-right: 10px;">
+      Salvar
+    </button>
     <button (click)="onCancel()" mat-raised-button>Cancelar</button>
   </mat-card-actions>
 </mat-card>
