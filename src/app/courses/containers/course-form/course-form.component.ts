@@ -60,6 +60,16 @@ export class CourseFormComponent implements OnInit {
     this.location.back();
   }
 
+  addNewLesson() {
+    const lessons = this.form.get('lessons') as UntypedFormArray;
+    lessons.push(this.createLesson());
+  }
+
+  removeLesson(index: number) {
+    const lessons = this.form.get('lessons') as UntypedFormArray;
+    lessons.removeAt(index);
+  }
+
   getErrorMessage(fieldName: string): string {
     const field = this.form?.get(fieldName);
 
