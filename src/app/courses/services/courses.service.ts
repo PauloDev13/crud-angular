@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { first, tap } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 import { Course } from '../model/course';
 
@@ -14,10 +14,7 @@ export class CoursesService {
   constructor(private httpClient: HttpClient) {}
 
   list(): Observable<Course[]> {
-    return this.httpClient.get<Course[]>(this.API).pipe(
-      first(),
-      tap(courses => console.log(courses)),
-    );
+    return this.httpClient.get<Course[]>(this.API).pipe(first());
   }
 
   loadById(id: string): Observable<Course> {
