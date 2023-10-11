@@ -9,6 +9,11 @@ import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
 import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
+import {Store} from "@ngrx/store";
+import {AppStateModel} from "../../../store/global/app-state.model";
+import {loadCourses, loadCourseSuccess} from "../../../store/course.action";
+import {selectorCourse} from "../../../store/course.selector";
+import {CoursesListModel} from "../../../store/course.model";
 
 @Component({
   selector: 'app-courses',
@@ -16,7 +21,8 @@ import { ErrorDialogComponent } from '../../shared/components/error-dialog/error
   styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent {
-  courses$: Observable<Course[]> | null = null;
+  // courses$: Observable<Course[]> | null = null;
+  courses$: Observable<CoursesListModel> | null = null;
   displayedColumns = ['name', 'category', 'actions'];
 
   constructor(
@@ -25,17 +31,29 @@ export class CoursesComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
+    private store: Store<AppStateModel>
   ) {
-    this.refresh();
+    // this.refresh();
+    this.getCourses();
   }
 
-  refresh() {
-    this.courses$ = this.coursesService.list().pipe(
+  // refresh() {
+  //   this.courses$ = this.coursesService.list().pipe(
+  //     catchError(() => {
+  //       this.onError('Erro ao carregar curso.');
+  //       return of([]);
+  //     }),
+  //   );
+  // }
+
+  getCourses() {
+    this.store.dispatch(loadCourses());
+    this.courses$ = this.store.select(selectorCourse).pipe(
       catchError(() => {
         this.onError('Erro ao carregar curso.');
-        return of([]);
-      }),
-    );
+        return of({ courses: [] });
+      })
+    )
   }
 
   onAdd() {
@@ -57,7 +75,7 @@ export class CoursesComponent {
       if (result) {
         this.coursesService.remove(course._id).subscribe({
           next: () => {
-            this.refresh();
+            // this.refresh();
             this.onSuccess();
           },
           error: () => this.onError('Erro ao remover curso!'),

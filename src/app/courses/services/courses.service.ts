@@ -4,17 +4,18 @@ import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { Course } from '../model/course';
+import {CoursesListModel} from "../../store/course.model";
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoursesService {
-  private readonly API = 'api/courses';
+  private readonly API = 'api/courses?page=0&size=10';
 
   constructor(private httpClient: HttpClient) {}
 
-  list(): Observable<Course[]> {
-    return this.httpClient.get<Course[]>(this.API).pipe(first());
+  list() {
+    return this.httpClient.get<CoursesListModel>(this.API).pipe(first());
   }
 
   loadById(id: string): Observable<Course> {
