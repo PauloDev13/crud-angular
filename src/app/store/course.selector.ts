@@ -4,7 +4,7 @@ import { CoursesListModel } from './course.model';
 
 const selectCourseState = createFeatureSelector<CoursesListModel>('courses');
 
-export const selectorCourse = createSelector(
+export const selectCourse = createSelector(
   selectCourseState,
   (state: CoursesListModel) => {
     return state;

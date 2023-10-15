@@ -3,19 +3,23 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
+import { CoursesListModel } from '../../store/course.model';
 import { Course } from '../model/course';
-import {CoursesListModel} from "../../store/course.model";
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoursesService {
-  private readonly API = 'api/courses?page=0&size=10';
+  private readonly API: string = 'api/courses';
 
   constructor(private httpClient: HttpClient) {}
 
-  list() {
-    return this.httpClient.get<CoursesListModel>(this.API).pipe(first());
+  list(): Observable<CoursesListModel> {
+    const page = '0';
+    const size = '10';
+    return this.httpClient
+      .get<CoursesListModel>(`${this.API}?page=${page}&size=${size}`)
+      .pipe(first());
   }
 
   loadById(id: string): Observable<Course> {
@@ -29,8 +33,8 @@ export class CoursesService {
     return this.create(record);
   }
 
-  remove(id: string) {
-    return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
+  remove(id: string): Observable<Course> {
+    return this.httpClient.delete<Course>(`${this.API}/${id}`).pipe(first());
   }
 
   private create(record: Partial<Course>): Observable<Course> {

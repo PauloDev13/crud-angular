@@ -9,21 +9,21 @@ import { Course } from '../../model/course';
 })
 export class CoursesListComponent {
   @Input() courses: Course[] = [];
-  @Output() add = new EventEmitter<boolean>(false);
-  @Output() edit = new EventEmitter<Course>(false);
-  @Output() delete = new EventEmitter<Course>(false);
+  @Output() add: EventEmitter<boolean> = new EventEmitter<boolean>(false);
+  @Output() edit: EventEmitter<Course> = new EventEmitter<Course>(true);
+  @Output() delete: EventEmitter<Course> = new EventEmitter<Course>(true);
 
   readonly displayedColumns = ['name', 'category', 'actions'];
 
-  onAdd() {
+  onAdd(): void {
     this.add.emit(true);
   }
 
-  onEdit(course: Course) {
+  onEdit(course: Course): void {
     this.edit.emit(course);
   }
 
-  onDelete(course: Course) {
+  onDelete(course: Course): void {
     this.delete.emit(course);
   }
 }

@@ -9,8 +9,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {AppStore} from "./store/global/app.store";
-import {CourseEffect} from "./store/course.effect";
+import { CourseEffect } from './store/course.effect';
+import { AppStore } from './store/global/app.store';
 
 @NgModule({
   declarations: [AppComponent],

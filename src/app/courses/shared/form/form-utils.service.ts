@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  AbstractControl,
   UntypedFormArray,
   UntypedFormControl,
   UntypedFormGroup,
@@ -9,10 +10,11 @@ import {
   providedIn: 'root',
 })
 export class FormUtilsService {
-  validateAllFormFields(formGroup: UntypedFormGroup | UntypedFormArray) {
+  validateAllFormFields(formGroup: UntypedFormGroup | UntypedFormArray): void {
     Object.keys(formGroup.controls).forEach(field => {
-      const control = formGroup.get(field);
+      const control: AbstractControl<unknown> | null = formGroup.get(field);
       control?.markAsTouched({ onlySelf: true });
+
       if (
         control instanceof UntypedFormGroup ||
         control instanceof UntypedFormArray
@@ -23,7 +25,9 @@ export class FormUtilsService {
   }
 
   getErrorMessage(formGroup: UntypedFormGroup, fieldName: string): string {
-    const field = formGroup.get(fieldName) as UntypedFormControl;
+    const field: UntypedFormControl = formGroup.get(
+      fieldName,
+    ) as UntypedFormControl;
     return this.getErrorMessageFormField(field);
   }
 
@@ -54,16 +58,22 @@ export class FormUtilsService {
     formArrayName: string,
     fieldName: string,
     index: number,
-  ) {
-    const formArray = formGroup.get(formArrayName) as UntypedFormArray;
-    const field = formArray.controls[index].get(
+  ): string {
+    const formArray: UntypedFormArray = formGroup.get(
+      formArrayName,
+    ) as UntypedFormArray;
+
+    const field: UntypedFormControl = formArray.controls[index].get(
       fieldName,
     ) as UntypedFormControl;
+
     return this.getErrorMessageFormField(field);
   }
 
   isFormArrayRequired(formGroup: UntypedFormGroup, formArrayName: string) {
-    const formArray = formGroup.get(formArrayName) as UntypedFormArray;
+    const formArray: UntypedFormArray = formGroup.get(
+      formArrayName,
+    ) as UntypedFormArray;
     return (
       formArray.invalid && formArray.hasError('required') && formArray.touched
     );
