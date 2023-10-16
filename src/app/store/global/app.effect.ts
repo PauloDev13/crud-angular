@@ -17,8 +17,8 @@ export class AppEffect {
   showAlert = createEffect(() => {
     return this.actions$.pipe(
       ofType(showAlert),
-      switchMap((action: { message: string }) =>
-        this.showSnackBarAlert(action.message)
+      switchMap((action: { message: string; resultType: string }) =>
+        this.showSnackBarAlert(action.message, action.resultType)
           .afterDismissed()
           .pipe(map(() => emptyAction())),
       ),
@@ -36,11 +36,13 @@ export class AppEffect {
     );
   });
 
-  private showSnackBarAlert(message: string) {
+  private showSnackBarAlert(message: string, resultType = 'fail') {
+    const _class = resultType === 'pass' ? 'green-snackbar' : 'red-snackbar';
     return this.snackBar.open(message, 'OK', {
       verticalPosition: 'top',
       horizontalPosition: 'end',
       duration: 3000,
+      panelClass: [_class],
     });
   }
 

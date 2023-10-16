@@ -32,18 +32,26 @@ export class CourseEffect {
     return this.actions$.pipe(
       ofType(createCourse),
       switchMap((action: CourseCreateModel) =>
-        this.courseService
-          .createCourse(action.inputCourse)
-          .pipe(
-            switchMap((data: Course) =>
-              of(
-                createCourseSuccess({ inputCourse: data }),
-                showAlert({ message: 'Curso adicionado com sucesso' }),
-              ),
+        this.courseService.createCourse(action.inputCourse).pipe(
+          switchMap((data: Course) =>
+            of(
+              createCourseSuccess({ inputCourse: data }),
+              showAlert({
+                message: 'Curso adicionado com sucesso',
+                resultType: 'pass',
+              }),
             ),
           ),
+        ),
       ),
-      catchError(() => of(showAlert({ message: 'Falha ao adicionar Curso' }))),
+      catchError(() =>
+        of(
+          showAlert({
+            message: 'Falha ao adicionar Curso',
+            resultType: 'fail',
+          }),
+        ),
+      ),
     );
   });
 
@@ -51,18 +59,26 @@ export class CourseEffect {
     return this.actions$.pipe(
       ofType(updateCourse),
       switchMap((action: CourseCreateModel) =>
-        this.courseService
-          .updateCourse(action.inputCourse)
-          .pipe(
-            switchMap((data: Course) =>
-              of(
-                updateCourseSuccess({ inputCourse: data }),
-                showAlert({ message: 'Curso atualizado com sucesso' }),
-              ),
+        this.courseService.updateCourse(action.inputCourse).pipe(
+          switchMap((data: Course) =>
+            of(
+              updateCourseSuccess({ inputCourse: data }),
+              showAlert({
+                message: 'Curso atualizado com sucesso',
+                resultType: 'pass',
+              }),
             ),
           ),
+        ),
       ),
-      catchError(() => of(showAlert({ message: 'Falha ao atualizar Curso' }))),
+      catchError(() =>
+        of(
+          showAlert({
+            message: 'Falha ao atualizar Curso',
+            resultType: 'fail',
+          }),
+        ),
+      ),
     );
   });
 
@@ -70,18 +86,26 @@ export class CourseEffect {
     return this.actions$.pipe(
       ofType(removeCourse),
       switchMap((action: { id: string }) =>
-        this.courseService
-          .remove(action.id)
-          .pipe(
-            switchMap(() =>
-              of(
-                removeCourseSuccess({ id: action.id }),
-                showAlert({ message: 'Curso removido com sucesso' }),
-              ),
+        this.courseService.remove(action.id).pipe(
+          switchMap(() =>
+            of(
+              removeCourseSuccess({ id: action.id }),
+              showAlert({
+                message: 'Curso removido com sucesso',
+                resultType: 'pass',
+              }),
             ),
           ),
+        ),
       ),
-      catchError(() => of(showAlert({ message: 'Falha ao adicionar Curso' }))),
+      catchError(() =>
+        of(
+          showAlert({
+            message: 'Falha ao adicionar Curso',
+            resultType: 'fail',
+          }),
+        ),
+      ),
     );
   });
 
