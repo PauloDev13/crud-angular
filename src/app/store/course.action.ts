@@ -10,6 +10,9 @@ export const LOAD_COURSE_ERROR = '[course page] load courses fail';
 export const CREATE_COURSE = '[course page] create course';
 export const CREATE_COURSE_SUCCESS = '[course page] create course success';
 
+export const UPDATE_COURSE = '[course page] update course';
+export const UPDATE_COURSE_SUCCESS = '[course page] update course success';
+
 export const REMOVE_COURSE = '[course page] remove course';
 export const REMOVE_COURSE_SUCCESS = '[course page] remove course success';
 
@@ -20,7 +23,7 @@ export const loadCourseSuccess = createAction(
 );
 export const loadCourseError = createAction(
   LOAD_COURSE_ERROR,
-  props<{ courses: Course[] }>(),
+  props<{ errorMessage: string }>(),
 );
 
 export const createCourse = createAction(
@@ -29,6 +32,15 @@ export const createCourse = createAction(
 );
 export const createCourseSuccess = createAction(
   CREATE_COURSE_SUCCESS,
+  props<{ inputCourse: Course }>(),
+);
+
+export const updateCourse = createAction(
+  UPDATE_COURSE,
+  props<{ inputCourse: Course }>(),
+);
+export const updateCourseSuccess = createAction(
+  UPDATE_COURSE_SUCCESS,
   props<{ inputCourse: Course }>(),
 );
 

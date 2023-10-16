@@ -7,11 +7,10 @@ import {
   UntypedFormArray,
   Validators,
 } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { createCourse } from '../../../store/course.action';
+import { createCourse, updateCourse } from '../../../store/course.action';
 import { AppStateModel } from '../../../store/global/app-state.model';
 import { Course } from '../../model/course';
 import { Lesson } from '../../model/lesson';
@@ -30,7 +29,6 @@ export class CourseFormComponent implements OnInit {
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
-    private snackBar: MatSnackBar,
     private location: Location,
     private store: Store<AppStateModel>,
   ) {}
@@ -58,8 +56,15 @@ export class CourseFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.store.dispatch(createCourse({ inputCourse: this.form.value }));
-      this.onSuccess();
+      const id = !!this.form.value._id;
+
+      if (id) {
+        this.store.dispatch(updateCourse({ inputCourse: this.form.value }));
+      } else {
+        this.store.dispatch(createCourse({ inputCourse: this.form.value }));
+      }
+
+      this.onCancel();
     } else {
       this.formUtilsService.validateAllFormFields(this.form);
     }
@@ -120,14 +125,5 @@ export class CourseFormComponent implements OnInit {
         ],
       ],
     });
-  }
-
-  private onSuccess(): void {
-    this.snackBar.open('Curso salvo com sucesso!', '', { duration: 3000 });
-    this.onCancel();
-  }
-
-  private onError(): void {
-    this.snackBar.open('Erro ao salvar curso.', '', { duration: 3000 });
   }
 }
