@@ -38,7 +38,7 @@ export class CoursesComponent {
 
     const dialogRef: MatDialogRef<ConfirmationDialogComponent> =
       this.dialog.open(ConfirmationDialogComponent, {
-        data: 'Tem certeza que deseja remover este curso?',
+        data: `Confirma a exclusão do curso ${course.name.toUpperCase()}?`,
       });
 
     dialogRef.afterClosed().subscribe({
