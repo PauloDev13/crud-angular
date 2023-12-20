@@ -14,11 +14,11 @@ export class CoursesService {
 
   constructor(private httpClient: HttpClient) {}
 
-  list(): Observable<CoursesListModel> {
-    const page = '0';
-    const size = '10';
+  list(page = 0, size = 10): Observable<CoursesListModel> {
     return this.httpClient
-      .get<CoursesListModel>(`${this.API}?page=${page}&size=${size}`)
+      .get<CoursesListModel>(this.API, {
+        params: { page, size },
+      })
       .pipe(first());
   }
 

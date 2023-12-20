@@ -36,3 +36,14 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
+
+<mat-paginator
+  (page)="refresh($event)"
+  [length]="totalElements"
+  [pageIndex]="pageIndex"
+  [pageSizeOptions]="[5, 10, 15]"
+  [pageSize]="pageSize"
+  aria-label="Selecione a página de cursos"
+  showFirstLastButtons
+>
+</mat-paginator>

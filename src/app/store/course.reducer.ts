@@ -20,6 +20,8 @@ const _courseReducer = createReducer(
       return {
         ...state,
         courses: [...action.courses],
+        totalElements: action.totalElements,
+        totalPages: action.totalPages,
         errorMessage: '',
       };
     },
@@ -31,6 +33,8 @@ const _courseReducer = createReducer(
       return {
         ...state,
         courses: [...state.courses, action.inputCourse],
+        totalElements: 0,
+        totalPages: 0,
         errorMessage: '',
       };
     },
@@ -45,6 +49,8 @@ const _courseReducer = createReducer(
       return {
         ...state,
         courses: newListCourse,
+        totalElements: undefined,
+        totalPages: undefined,
         errorMessage: '',
       };
     },
@@ -60,6 +66,8 @@ const _courseReducer = createReducer(
       return {
         ...state,
         courses: newListCourse,
+        totalElements: undefined,
+        totalPages: undefined,
       };
     },
   ),
@@ -73,6 +81,8 @@ const _courseReducer = createReducer(
       return {
         ...state,
         courses: [],
+        totalElements: undefined,
+        totalPages: undefined,
         errorMessage: action.errorMessage,
       };
     },

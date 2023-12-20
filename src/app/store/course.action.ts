@@ -19,7 +19,11 @@ export const REMOVE_COURSE_SUCCESS = '[course page] remove course success';
 export const loadCourses = createAction(LOAD_COURSES);
 export const loadCourseSuccess = createAction(
   LOAD_COURSE_SUCCESS,
-  props<{ courses: Course[] }>(),
+  props<{
+    courses: Course[];
+    totalElements?: number;
+    totalPages?: number;
+  }>(),
 );
 export const loadCourseError = createAction(
   LOAD_COURSE_ERROR,
