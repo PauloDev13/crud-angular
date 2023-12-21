@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, map, Observable, of, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Course } from '../courses/model/course';
@@ -112,9 +112,9 @@ export class CourseEffect {
   getCourses: Observable<getCourseType> = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadCourses),
-      exhaustMap(() =>
+      switchMap((action: { page: number; size: number }) =>
         this.courseService
-          .list()
+          .list(action.page, action.size)
           .pipe(map((data: CoursesListModel) => loadCourseSuccess(data))),
       ),
       catchError(() => {

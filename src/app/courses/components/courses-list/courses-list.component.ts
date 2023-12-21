@@ -1,14 +1,10 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
 
+import { loadCourses } from '../../../store/course.action';
+import { CoursesListModel } from '../../../store/course.model';
+import { selectCourse } from '../../../store/course.selector';
 import { AppStateModel } from '../../../store/global/app-state.model';
 import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
@@ -24,7 +20,7 @@ export class CoursesListComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Output() add: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   @Output() edit: EventEmitter<Course> = new EventEmitter<Course>(true);
   @Output() delete: EventEmitter<Course> = new EventEmitter<Course>(true);
@@ -44,26 +40,18 @@ export class CoursesListComponent implements OnInit {
       pageSize: this.pageSize,
     },
   ) {
-    this.coursesService
-      .list(pageEvent.pageIndex, pageEvent.pageSize)
-      .subscribe({
-        next: data => {
-          this.courses = data.courses;
-          this.totalElements = data.totalElements as number;
-        },
-      });
+    this.store.dispatch(
+      loadCourses({ page: pageEvent.pageIndex, size: pageEvent.pageSize }),
+    );
 
-    // const courseList$ = this.store.select(selectCourse)
+    const courseList$ = this.store.select(selectCourse);
 
-    // this.store.dispatch(loadCourses());
-    // const courseList$ = this.store.select(selectCourse);
-    //
-    // courseList$.subscribe({
-    //   next: (data: CoursesListModel) => {
-    //     this.courses = data.courses;
-    //     this.totalElements = data.totalElements as number;
-    //   },
-    // });
+    courseList$.subscribe({
+      next: (data: CoursesListModel) => {
+        this.courses = data.courses;
+        this.totalElements = data.totalElements as number;
+      },
+    });
   }
 
   onAdd(): void {

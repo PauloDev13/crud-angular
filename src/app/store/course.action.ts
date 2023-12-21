@@ -16,7 +16,10 @@ export const UPDATE_COURSE_SUCCESS = '[course page] update course success';
 export const REMOVE_COURSE = '[course page] remove course';
 export const REMOVE_COURSE_SUCCESS = '[course page] remove course success';
 
-export const loadCourses = createAction(LOAD_COURSES);
+export const loadCourses = createAction(
+  LOAD_COURSES,
+  props<{ page: number; size: number }>(),
+);
 export const loadCourseSuccess = createAction(
   LOAD_COURSE_SUCCESS,
   props<{
