@@ -15,8 +15,10 @@ export const CourseResolver: ResolveFn<Course> = (
   state: RouterStateSnapshot,
   service: CoursesService = inject(CoursesService),
 ): Observable<Course> => {
-  if (route.params && route.params['id']) {
-    return service.loadById(route.params['id']).pipe(take(1));
+  if (route.params) {
+    if (route.params['id']) {
+      return service.loadById(route.params['id']).pipe(take(1));
+    }
   }
   return of({ _id: '', name: '', category: '', lessons: [] });
 };
