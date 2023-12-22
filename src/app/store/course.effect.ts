@@ -101,7 +101,7 @@ export class CourseEffect {
       catchError(() =>
         of(
           showAlert({
-            message: 'Falha ao adicionar Curso',
+            message: 'Falha ao remover Curso',
             resultType: 'fail',
           }),
         ),
