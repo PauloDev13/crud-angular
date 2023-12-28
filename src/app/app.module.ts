@@ -27,7 +27,11 @@ import { AppStore } from './store/global/app.store';
     MatDialogModule,
     StoreModule.forRoot(AppStore),
     EffectsModule.forRoot([CourseEffect, AppEffect]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      connectInZone: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
