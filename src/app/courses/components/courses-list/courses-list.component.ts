@@ -1,5 +1,8 @@
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 
 import { loadCourses } from '../../../store/course.action';
@@ -7,12 +10,20 @@ import { CoursesListModel } from '../../../store/course.model';
 import { selectCourse } from '../../../store/course.selector';
 import { AppStateModel } from '../../../store/global/app-state.model';
 import { Course } from '../../model/course';
-import { CoursesService } from '../../services/courses.service';
+import { CategoryPipe } from '../../shared/pipes/category.pipe';
 
 @Component({
   selector: 'app-courses-list',
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.scss'],
+  standalone: true,
+  imports: [
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    CategoryPipe,
+  ],
 })
 export class CoursesListComponent implements OnInit {
   courses: Course[] = [];
@@ -27,7 +38,6 @@ export class CoursesListComponent implements OnInit {
 
   readonly displayedColumns = ['name', 'category', 'actions'];
   private store: Store<AppStateModel> = inject(Store);
-  private coursesService: CoursesService = inject(CoursesService);
 
   ngOnInit(): void {
     this.refresh();

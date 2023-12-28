@@ -10,13 +10,15 @@ import { AppMaterialModule } from './shared/app-material/app-material.module';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [CoursesComponent, CourseFormComponent, CoursesListComponent],
   imports: [
     CommonModule,
     CoursesRoutingModule,
     ReactiveFormsModule,
     AppMaterialModule,
     SharedModule,
+    CoursesComponent,
+    CourseFormComponent,
+    CoursesListComponent,
   ],
 })
 export class CoursesModule {}
