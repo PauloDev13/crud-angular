@@ -2,18 +2,11 @@
   <mat-card-content>
     <div class="column-flex mat-elevation-z8">
       <mat-toolbar color="primary">Cursos disponíveis</mat-toolbar>
-
       <app-courses-list
         (add)="onAdd()"
         (delete)="onDelete($event)"
         (edit)="onEdit($event)">
       </app-courses-list>
-
-      <ng-template #loading>
-        <div class="loading-spinner">
-          <mat-spinner></mat-spinner>
-        </div>
-      </ng-template>
     </div>
   </mat-card-content>
 </mat-card>

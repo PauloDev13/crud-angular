@@ -1,4 +1,4 @@
-import { Location, NgFor, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -37,13 +37,11 @@ import { FormArrayLessonType } from '../../types/form.type';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    NgIf,
     MatSelectModule,
     MatOptionModule,
     MatButtonModule,
-    MatIconModule,
-    NgFor,
-  ],
+    MatIconModule
+],
 })
 export class CourseFormComponent implements OnInit {
   form!: FormGroup;
